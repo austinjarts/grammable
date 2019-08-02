@@ -4,9 +4,11 @@ class GramsController < ApplicationController
 
   def new
     @gram = Gram.new
+
   end 
 
   def index
+    @grams = Gram.all
   end 
 
   def create
@@ -45,6 +47,15 @@ class GramsController < ApplicationController
     end 
   end 
 
+  def destroy
+    @gram = Gram.find_by_id(params[:id])
+    return render_not_found if @gram.blank?
+    @gram.destroy
+    redirect_to root_path
+  end 
+
+
+
   private
 
   def render_not_found
@@ -52,7 +63,7 @@ class GramsController < ApplicationController
   end
 
   def gram_params
-    params.require(:gram).permit(:message)
+    params.require(:gram).permit(:message, :picture)
   end 
 
 end
